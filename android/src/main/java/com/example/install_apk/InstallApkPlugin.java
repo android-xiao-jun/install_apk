@@ -46,7 +46,7 @@ public class InstallApkPlugin implements FlutterPlugin, ActivityAware, MethodCal
         } else if ("installApk".equals(call.method)) {
             String filePath = call.argument("filePath");
             String appId = call.argument("appId");
-            Log.d("android plugin", "installApk $filePath $appId");
+            Log.d("android plugin", "installApk  "+filePath+appId);
             try {
                 installApk(filePath, appId);
                 result.success("Success");
@@ -70,7 +70,7 @@ public class InstallApkPlugin implements FlutterPlugin, ActivityAware, MethodCal
 
         File file = new File(filePath);
         if (!file.exists()) {
-            throw new NullPointerException("$filePath is not exist! or check permission");
+            throw new NullPointerException(filePath+" is not exist! or check permission");
         }
         this.apkFile = file;
         this.appId = appId;
@@ -131,7 +131,7 @@ public class InstallApkPlugin implements FlutterPlugin, ActivityAware, MethodCal
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uri = FileProvider.getUriForFile(context, "$appId.fileProvider.install2", file);
+        Uri uri = FileProvider.getUriForFile(context, appId+".fileProvider.install2", file);
         intent.setDataAndType(uri, "application/vnd.android.package-archive");
         context.startActivity(intent);
     }
